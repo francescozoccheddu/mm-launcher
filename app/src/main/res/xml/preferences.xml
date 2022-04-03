@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/pref_category_appearance">
+
+        <SeekBarPreference
+            android:defaultValue="@integer/pref_column_count_default"
+            android:icon="@drawable/ic_columns"
+            android:key="@string/pref_column_count_key"
+            android:max="10"
+            android:title="@string/pref_column_count_title"
+            app:min="1"
+            app:showSeekBarValue="true" />
+
+        <ListPreference
+            android:entries="@array/pref_items_size_entries"
+            android:entryValues="@array/pref_items_size_entry_values"
+            android:icon="@drawable/ic_size"
+            android:key="@string/pref_card_size_key"
+            android:title="@string/pref_card_size_title"
+            app:defaultValue="@integer/pref_card_size_default" />
+
+        <ListPreference
+            android:entries="@array/pref_focus_highlight_entries"
+            android:entryValues="@array/pref_focus_highlight_entry_values"
+            android:icon="@drawable/ic_highlight"
+            android:key="@string/pref_focus_zoom_key"
+            android:title="@string/pref_focus_zoom_title"
+            app:defaultValue="@integer/pref_focus_zoom_default" />
+
+        <SwitchPreferenceCompat
+            android:icon="@drawable/ic_dim"
+            android:key="@string/pref_use_dimmer_key"
+            android:title="@string/pref_use_dimmer_title"
+            app:defaultValue="@bool/pref_use_dimmer_default" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_targets">
+
+        <MultiSelectListPreference
+            android:icon="@drawable/ic_show"
+            android:key="@string/pref_active_targets_key"
+            android:title="@string/pref_active_targets_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_system">
+
+        <Preference
+            android:icon="@drawable/ic_settings"
+            android:key="@string/pref_system_settings_key"
+            android:title="@string/pref_system_settings_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

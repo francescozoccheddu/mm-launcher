@@ -38,10 +38,8 @@ class Target(
         context.startActivity(intent)
     }
 
-    override fun equals(other: Any?) = other is Target
-            && other.packageName == packageName
-            && other.name == name
+    override fun equals(other: Any?) = other is Target && other.name == name
 
-    override fun hashCode() = Objects.hash(packageName, name)
+    override fun hashCode() = Objects.hashCode(name)
 
 }

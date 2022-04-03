@@ -1,3 +1,51 @@
 <resources>
     <string name="app_name">MariaLauncher</string>
+    <string name="activity_settings_label">Settings</string>
+    <string name="pref_column_count_key">column_count</string>
+    <string name="pref_card_size_key">card_size</string>
+    <string name="pref_focus_zoom_key">focus_zoom</string>
+    <string name="pref_use_dimmer_key">use_dimmer</string>
+    <string name="pref_active_targets_key">active_targets</string>
+    <string name="pref_system_settings_key">system_settings</string>
+    <string name="pref_system_settings_title">Open system settings</string>
+    <string name="pref_active_targets_title">Shown apps</string>
+    <string name="pref_use_dimmer_title">Dim unfocused cards</string>
+    <string name="pref_focus_zoom_title">Focus highlight</string>
+    <string name="pref_card_size_title">Item size</string>
+    <string name="pref_column_count_title">Column count</string>
+    <string name="pref_category_targets">Apps</string>
+    <string name="pref_category_system">System</string>
+    <string name="pref_category_appearance">Appearance</string>
+    <string-array name="pref_items_size_entry_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="pref_items_size_entries">
+        <item>Very small</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Very large</item>
+    </string-array>
+    <string-array name="pref_focus_highlight_entry_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="pref_focus_highlight_entries">
+        <item>None</item>
+        <item>Very small</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <plurals name="toast_settings_taps">
+        <item quantity="one">%d more tap to open settings</item>
+        <item quantity="other">%d more taps to open settings</item>
+    </plurals>
 </resources>

@@ -1,5 +1,6 @@
 package francescozoccheddu.marialauncher
 
+import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import kotlin.math.roundToInt
 
 class TargetPresenter : Presenter() {
@@ -21,16 +23,33 @@ class TargetPresenter : Presenter() {
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_card, parent, false)
-        val size = sequenceOf(CARD_HEIGHT_DP / CARD_HW_RATIO, CARD_HEIGHT_DP).map {
+    private lateinit var layoutParams: ViewGroup.LayoutParams
+
+    fun updateCardHeight(context: Context) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val height = when (prefs.getString(
+            context.resources.getString(R.string.pref_card_size_key),
+            context.resources.getInteger(R.integer.pref_card_size_default).toString()
+        )!!.toInt()) {
+            0 -> 50
+            1 -> 75
+            3 -> 125
+            4 -> 150
+            else -> 100
+        }
+        val size = sequenceOf(height / CARD_HW_RATIO, height).map {
             TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 it.toFloat(),
-                parent.resources.displayMetrics
+                context.resources.displayMetrics
             ).roundToInt()
         }.toList()
-        view.layoutParams = ViewGroup.LayoutParams(size[0], size[1])
+        layoutParams = ViewGroup.LayoutParams(size[0], size[1])
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_card, parent, false)
+        view.layoutParams = ViewGroup.LayoutParams(layoutParams)
         return Holder(view)
     }
 
@@ -68,7 +87,6 @@ class TargetPresenter : Presenter() {
 
     companion object {
         private const val CARD_HW_RATIO = 0.5625
-        private const val CARD_HEIGHT_DP = 100
     }
 
 }

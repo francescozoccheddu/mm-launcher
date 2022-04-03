@@ -23,15 +23,25 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MariaLauncher">
+        android:theme="@style/Theme.Launcher"
+        android:banner="@mipmap/ic_banner">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/Theme.Settings"
+            android:label="@string/activity_settings_label"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 
