@@ -8,16 +8,13 @@ class GridFragment : VerticalGridSupportFragment(), OnItemViewClickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val rowsAdapter = ArrayObjectAdapter(TargetPresenter())
-        adapter = rowsAdapter
         onItemViewClickedListener = this
         val gridPresenter = VerticalGridPresenter()
         gridPresenter.numberOfColumns = NUM_COLUMNS
         setGridPresenter(gridPresenter)
-        val activities = TargetRetriever.getLaunchableActivities(requireContext())
-        for (app in activities) {
-            rowsAdapter.add(app)
-        }
+        val targetsAdapter = ArrayObjectAdapter(TargetPresenter())
+        adapter = targetsAdapter
+        targetsAdapter.addAll(0, TargetManager.activeTargets)
     }
 
     override fun onItemClicked(

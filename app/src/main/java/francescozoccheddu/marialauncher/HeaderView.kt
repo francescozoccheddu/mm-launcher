@@ -21,7 +21,6 @@ class HeaderView(context: Context?, attrs: AttributeSet?, defStyle: Int) :
     override fun getTitleViewAdapter() = adapter
 
     init {
-        orientation = VERTICAL
         LayoutInflater.from(context).inflate(R.layout.layout_header, this)
     }
 

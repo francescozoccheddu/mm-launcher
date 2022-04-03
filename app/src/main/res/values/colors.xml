@@ -1,3 +1,5 @@
 <resources>
     <color name="launcher_background">#3DDC84</color>
+    <color name="card_background">#303030</color>
+    <color name="card_label">#E4E4E4</color>
 </resources>

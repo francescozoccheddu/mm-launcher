@@ -1,36 +1,59 @@
 package francescozoccheddu.marialauncher
 
-import androidx.leanback.widget.ImageCardView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.leanback.widget.Presenter
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class TargetPresenter : Presenter() {
 
+    class Holder(val root: View) : ViewHolder(root) {
+
+        val label: TextView = root.findViewById(R.id.card_label)
+        val icon: ImageView = root.findViewById(R.id.card_icon)
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
-        val cardView = object : ImageCardView(parent.context) {}
-        cardView.isFocusable = true
-        cardView.isFocusableInTouchMode = true
-        return ViewHolder(cardView)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_card, parent, false)
+        return Holder(view)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
-        val activity = item as Target
-        val cardView = viewHolder.view as ImageCardView
-        cardView.mainImage = activity.icon;
-        cardView.titleText = activity.name
-        cardView.contentText = activity.packageName;
-        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+        val holder = viewHolder as Holder
+        val target = item as Target
+        if (target.banner != null) {
+            holder.root.background = target.banner
+            holder.icon.visibility = GONE
+            holder.label.visibility = GONE
+        } else {
+            holder.root.setBackgroundColor(
+                ContextCompat.getColor(
+                    holder.root.context,
+                    R.color.card_background
+                )
+            )
+            if (item.icon != null) {
+                holder.icon.setImageDrawable(item.icon)
+                holder.icon.visibility = VISIBLE
+                holder.label.visibility = GONE
+            } else {
+                holder.label.text = item.label
+                holder.label.visibility = VISIBLE
+                holder.icon.visibility = GONE
+            }
+        }
     }
 
     override fun onUnbindViewHolder(viewHolder: ViewHolder) {
-        val cardView = viewHolder.view as ImageCardView
-        cardView.badgeImage = null
-        cardView.mainImage = null
-    }
-
-    companion object {
-        private const val CARD_WIDTH = 313
-        private const val CARD_HEIGHT = 176
+        val holder = viewHolder as Holder
+        holder.root.background = null
+        holder.icon.setImageDrawable(null)
     }
 
 }

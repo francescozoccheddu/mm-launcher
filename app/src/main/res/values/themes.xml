@@ -5,5 +5,10 @@
         <item name="android:windowFullscreen">true</item>
         <item name="browseTitleViewLayout">@layout/header_view</item>
         <item name="browseRowsMarginTop">@dimen/grid_top_margin</item>
+        <item name="imageCardViewStyle">@style/ImageCardViewStyle</item>
+    </style>
+    <style name="ImageCardViewStyle" parent="Widget.Leanback.ImageCardViewStyle">
+        <item name="cardBackground">#F0F</item>
+        <item name="lbImageCardViewType">Content</item>
     </style>
 </resources>

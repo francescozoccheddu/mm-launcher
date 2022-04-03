@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/card_width"
+    android:padding="@dimen/card_padding"
+    android:layout_height="@dimen/card_height">
+
+    <ImageView
+        android:id="@+id/card_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/card_label"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:textColor="@color/card_label"
+        android:gravity="center"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:textSize="@dimen/card_label_text_size"
+        android:singleLine="true"
+        android:visibility="gone" />
+
+</FrameLayout>

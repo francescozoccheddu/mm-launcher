@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.75"
-        android:format12Hour="H:mm"
+        android:format12Hour="H:mm a"
         android:format24Hour="H:mm"
         android:textSize="@dimen/time_text_size" />
 
