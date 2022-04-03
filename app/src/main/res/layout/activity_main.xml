@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wallpaper"
-    android:orientation="vertical">
+    android:background="@drawable/wallpaper">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/main_grid"
+        android:id="@+id/main_grid_fragment"
         android:name="francescozoccheddu.marialauncher.GridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</FrameLayout>
 

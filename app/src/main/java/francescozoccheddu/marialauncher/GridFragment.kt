@@ -14,17 +14,18 @@ class GridFragment : VerticalGridSupportFragment(), OnItemViewClickedListener {
         setGridPresenter(gridPresenter)
         val targetsAdapter = ArrayObjectAdapter(TargetPresenter())
         adapter = targetsAdapter
-        targetsAdapter.addAll(0, TargetManager.activeTargets)
+        targetsAdapter.addAll(0, TargetManager.getTargets(requireContext()))
     }
 
     override fun onItemClicked(
         itemViewHolder: Presenter.ViewHolder?, item: Any,
         rowViewHolder: RowPresenter.ViewHolder?, row: Row?
     ) {
+        (item as Target).launch(requireContext())
     }
 
     companion object {
-        private const val NUM_COLUMNS = 5
+        private const val NUM_COLUMNS = 4
     }
 
 }

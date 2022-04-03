@@ -7,8 +7,9 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TargetManager.update(baseContext)
         setContentView(R.layout.activity_main)
     }
+
+    override fun onBackPressed() {}
 
 }

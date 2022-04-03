@@ -1,5 +1,6 @@
 package francescozoccheddu.marialauncher
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import kotlin.math.roundToInt
 
 class TargetPresenter : Presenter() {
 
@@ -21,6 +23,14 @@ class TargetPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_card, parent, false)
+        val size = sequenceOf(CARD_HEIGHT_DP / CARD_HW_RATIO, CARD_HEIGHT_DP).map {
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                it.toFloat(),
+                parent.resources.displayMetrics
+            ).roundToInt()
+        }.toList()
+        view.layoutParams = ViewGroup.LayoutParams(size[0], size[1])
         return Holder(view)
     }
 
@@ -54,6 +64,11 @@ class TargetPresenter : Presenter() {
         val holder = viewHolder as Holder
         holder.root.background = null
         holder.icon.setImageDrawable(null)
+    }
+
+    companion object {
+        private const val CARD_HW_RATIO = 0.5625
+        private const val CARD_HEIGHT_DP = 100
     }
 
 }
