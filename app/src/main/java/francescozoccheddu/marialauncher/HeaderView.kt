@@ -1,4 +1,4 @@
-package francescozoccheddu.marialauncher
+package francescozoccheddu.mmlauncher
 
 import android.content.Context
 import android.util.AttributeSet

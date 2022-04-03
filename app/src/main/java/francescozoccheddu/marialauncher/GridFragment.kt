@@ -1,4 +1,4 @@
-package francescozoccheddu.marialauncher
+package francescozoccheddu.mmlauncher
 
 import android.os.Bundle
 import androidx.leanback.app.VerticalGridSupportFragment

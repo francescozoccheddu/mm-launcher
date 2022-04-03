@@ -6,9 +6,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_grid_fragment"
-        android:name="francescozoccheddu.marialauncher.GridFragment"
+        android:name="francescozoccheddu.mmlauncher.GridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 </FrameLayout>
-

@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "francescozoccheddu.marialauncher"
+        applicationId "francescozoccheddu.mmlauncher"
         minSdk 28
         targetSdk 32
         versionCode 1

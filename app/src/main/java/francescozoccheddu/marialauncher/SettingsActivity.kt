@@ -1,4 +1,4 @@
-package francescozoccheddu.marialauncher
+package francescozoccheddu.mmlauncher
 
 import android.content.Intent
 import android.os.Bundle

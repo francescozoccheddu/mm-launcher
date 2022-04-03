@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MariaLauncher</string>
+    <string name="app_name">mm-launcher</string>
     <string name="activity_settings_label">Settings</string>
     <string name="pref_column_count_key">column_count</string>
     <string name="pref_card_size_key">card_size</string>
