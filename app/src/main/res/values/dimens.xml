@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="date_text_size">24sp</dimen>
+    <dimen name="time_text_size">32sp</dimen>
+    <dimen name="datetime_margin">20dp</dimen>
+</resources>
