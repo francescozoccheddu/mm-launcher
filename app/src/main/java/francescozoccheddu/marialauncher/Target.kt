@@ -6,7 +6,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import java.util.*
 
-data class LaunchableActivity(
+data class Target(
     val packageName: String,
     val name: String,
     val label: String,
@@ -22,7 +22,7 @@ data class LaunchableActivity(
         context.startActivity(intent)
     }
 
-    override fun equals(other: Any?) = other is LaunchableActivity
+    override fun equals(other: Any?) = other is Target
             && other.packageName == packageName
             && other.name == name
 

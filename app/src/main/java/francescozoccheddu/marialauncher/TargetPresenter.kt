@@ -4,7 +4,7 @@ import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import android.view.ViewGroup
 
-class LaunchableActivityCardPresenter : Presenter() {
+class TargetPresenter : Presenter() {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         val cardView = object : ImageCardView(parent.context) {}
@@ -14,7 +14,7 @@ class LaunchableActivityCardPresenter : Presenter() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
-        val activity = item as LaunchableActivity
+        val activity = item as Target
         val cardView = viewHolder.view as ImageCardView
         cardView.mainImage = activity.icon;
         cardView.titleText = activity.name

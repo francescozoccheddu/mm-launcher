@@ -7,40 +7,11 @@
     android:focusableInTouchMode="false"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/datetime_margin"
-        android:orientation="vertical">
-
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.75"
-            android:format12Hour="H:m"
-            android:format24Hour="H:m"
-            android:textSize="@dimen/time_text_size" />
-
-        <TextClock
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
-            android:format12Hour="EEEE, d MMMM"
-            android:format24Hour="EEEE, d MMMM"
-            android:textSize="@dimen/date_text_size" />
-
-    </LinearLayout>
-
-    <androidx.leanback.widget.VerticalGridView
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/grid"
+        android:name="francescozoccheddu.marialauncher.GridFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
 

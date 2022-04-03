@@ -3,5 +3,7 @@
     <style name="Theme.MariaLauncher" parent="@style/Theme.Leanback" >
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="browseTitleViewLayout">@layout/header_view</item>
+        <item name="browseRowsMarginTop">@dimen/grid_top_margin</item>
     </style>
 </resources>
