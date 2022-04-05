@@ -8,9 +8,14 @@
         android:id="@+id/main_wallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wallpaper"
+        android:scaleType="matrix"
         tools:ignore="ContentDescription" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_grid_fragment"
+        android:name="francescozoccheddu.mmlauncher.GridFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ViewStub
         android:id="@+id/main_header_stub"
@@ -26,11 +31,5 @@
         android:layout_height="match_parent"
         android:inflatedId="@+id/help"
         android:layout="@layout/layout_help" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/main_grid_fragment"
-        android:name="francescozoccheddu.mmlauncher.GridFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </FrameLayout>
