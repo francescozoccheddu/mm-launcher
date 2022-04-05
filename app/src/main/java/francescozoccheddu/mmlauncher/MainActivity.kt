@@ -1,9 +1,7 @@
 package francescozoccheddu.mmlauncher
 
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Interpolator
 import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Handler
@@ -11,17 +9,16 @@ import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.VerticalGridView
+import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.ceil
 import kotlin.math.max
-
+import kotlin.math.min
 
 class MainActivity : FragmentActivity() {
 
@@ -30,8 +27,7 @@ class MainActivity : FragmentActivity() {
         private const val TAPS_FOR_TOAST: Int = 5
         private const val TAPS_FOR_SETTINGS: Int = 10
         private const val MAX_WALLPAPER_SLIDE_FACTOR: Float = 0.2f
-        private const val MIN_WALLPAPER_SLIDE_FACTOR: Float = 0.05f
-        private const val MAX_WALLPAPER_SLIDE_FACTOR_ROW_COUNT: Int = 10
+        private const val MAX_WALLPAPER_SLIDE_FACTOR_SCROLL_SCREEN_FACTOR: Float = 1f
     }
 
     private abstract inner class TapManager {
@@ -122,24 +118,37 @@ class MainActivity : FragmentActivity() {
                 )
         }
 
-        val rowCount = ceil(Prefs.activeTargets.size.toFloat() / Prefs.columnCount).toInt()
+        val rowCount = ceil(Prefs.activeTargets.size.toDouble() / Prefs.columnCount).toInt()
 
         fun setup() {
             val fragment =
                 supportFragmentManager.findFragmentById(R.id.main_grid_fragment) as GridFragment
             val view: VerticalGridView = fragment.requireView()
                 .findViewById(androidx.leanback.R.id.browse_grid)
-            val firstChildPosition = IntArray(2)
+            val position = IntArray(2)
             view.setOnScrollChangeListener { _, _, _, _, _ ->
                 val firstChild = view.getChildAt(0)!!
-                firstChild.getLocationOnScreen(firstChildPosition)
-                val firstChildTop = firstChildPosition[1]
+                firstChild.getLocationOnScreen(position)
+                val firstChildTop = position[1]
                 headerManager.gridTop = firstChildTop
             }
-            view.setOnChildSelectedListener { _, _, position, _ ->
-                val row = position / Prefs.columnCount
-                wallpaperManager.progress = row.toFloat() / max(rowCount - 1, 1)
-            }
+            var scrollY = 0
+            view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val childHeight = view.getChildAt(0)!!.measuredHeight
+                    val spacing = view.verticalSpacing
+                    val height = childHeight * rowCount + spacing * (rowCount - 1)
+                    val fullHeight = height + view.paddingBottom + view.paddingTop
+                    val scrollHeight = max(fullHeight - resources.displayMetrics.heightPixels, 0)
+                    scrollY += dy
+                    wallpaperManager.scrollHeight = scrollHeight
+                    wallpaperManager.progress =
+                        if (scrollHeight == 0) 0.0
+                        else scrollY.toDouble() / scrollHeight
+                }
+
+            })
         }
 
     }
@@ -160,7 +169,7 @@ class MainActivity : FragmentActivity() {
             val actualGridTop = gridTop ?: return
             view.getLocationOnScreen(position)
             val headerBottom = position[1] + view.measuredHeight
-            childPanelView.translationY = (actualGridTop - headerBottom).toFloat()
+            childPanelView.translationY = min(actualGridTop - headerBottom, 0).toFloat()
             val overlaps = actualGridTop < headerBottom
             if (!overlaps && !started) {
                 started = true
@@ -201,54 +210,61 @@ class MainActivity : FragmentActivity() {
                     R.anim.wallpaper_start
                 )
             )
-            update()
+            updateScreenAndImage()
         }
 
-        fun update() {
+        private var maxTranslation: Double = 0.0
+        private var scale: Double = 0.0
+
+        fun updateScreenAndImage() {
             val imageWidth = imageView.drawable.intrinsicWidth
             val imageHeight = imageView.drawable.intrinsicHeight
             val screenWidth = resources.displayMetrics.widthPixels
             val screenHeight = resources.displayMetrics.heightPixels
-            val fitScaleX = screenWidth.toFloat() / imageWidth
-            val fitScaleY = screenHeight.toFloat() / imageHeight
-            val fitScale: Float = max(fitScaleX, fitScaleY)
-            val rowCount = gridManager?.rowCount ?: 0
-            val slideFactor = if (rowCount == 0) {
-                0.0f
-            } else {
-                val progress = rowCount.toFloat() / MAX_WALLPAPER_SLIDE_FACTOR_ROW_COUNT
-                MIN_WALLPAPER_SLIDE_FACTOR * (1 - progress) + MAX_WALLPAPER_SLIDE_FACTOR * progress
+            val fitScale = run {
+                val fitScaleX = screenWidth.toDouble() / imageWidth
+                val fitScaleY = screenHeight.toDouble() / imageHeight
+                max(fitScaleX, fitScaleY)
             }
-            val scale = fitScale * (1 + slideFactor)
-            val maxTranslation = screenHeight * slideFactor
-            imageView.imageMatrix = Matrix().apply {
-                setScale(
-                    scale,
-                    scale
+            val slideFactor = run {
+                val scrollScreenFactor = scrollHeight.toDouble() / screenHeight
+                MAX_WALLPAPER_SLIDE_FACTOR * min(
+                    scrollScreenFactor / MAX_WALLPAPER_SLIDE_FACTOR_SCROLL_SCREEN_FACTOR,
+                    1.0
                 )
-                postTranslate(0.0f, -animatedProgress * maxTranslation)
             }
+            scale = fitScale * (1.0 + slideFactor)
+            maxTranslation = screenHeight * slideFactor
+            updateProgress()
         }
 
-        private var animatedProgress: Float = 0f
-        private var animator: ValueAnimator? = null
-
-        var progress: Float = 0f
+        var scrollHeight = 0
             set(value) {
                 if (value == field) {
                     return
                 }
-                animator?.cancel()
-                animator = ValueAnimator.ofFloat(animatedProgress, value).apply {
-                    addUpdateListener { animation ->
-                        animatedProgress = animation.animatedValue as Float
-                        update()
-                    }
-                    duration = 100
-                    interpolator = AccelerateDecelerateInterpolator()
-                    start()
-                }
                 field = value
+                updateScreenAndImage()
+            }
+
+        fun updateProgress() {
+            imageView.imageMatrix = Matrix().apply {
+                setScale(
+                    scale.toFloat(),
+                    scale.toFloat()
+                )
+                postTranslate(0.0f, (-progress * maxTranslation).toFloat())
+            }
+        }
+
+        var progress: Double = 0.0
+            set(value) {
+                val clampedValue = min(max(value, 0.0), 1.0)
+                if (clampedValue == field) {
+                    return
+                }
+                field = clampedValue
+                updateProgress()
             }
 
     }
@@ -278,7 +294,6 @@ class MainActivity : FragmentActivity() {
     override fun onResume() {
         super.onResume()
         gridManager?.setup()
-        wallpaperManager.update()
     }
 
     override fun onBackPressed() {
