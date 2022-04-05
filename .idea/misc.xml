@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/drawable/ic_banner_foreground.xml" value="0.141" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/drawable/launcher_foreground.xml" value="0.141" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/layout/layout_card.xml" value="0.1" />
+        <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/layout/layout_header.xml" value="0.1" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/mipmap-anydpi-v26/ic_banner.xml" value="0.207" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.141" />
         <entry key="..\:/Users/franc/AndroidStudioProjects/mm-launcher/app/src/main/res/xml/preferences.xml" value="0.14722222222222223" />

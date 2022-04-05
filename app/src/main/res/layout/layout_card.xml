@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/card_width"
-    android:padding="@dimen/card_padding"
     android:layout_height="@dimen/card_height">
 
     <ImageView
         android:id="@+id/card_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/card_icon_margin"
         android:scaleType="fitCenter"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/card_label"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:textColor="@color/card_label"
-        android:gravity="center"
+        android:layout_margin="@dimen/card_label_margin"
         android:ellipsize="marquee"
+        android:gravity="center"
         android:lines="1"
-        android:textSize="@dimen/card_label_text_size"
+        android:scaleType="fitCenter"
         android:singleLine="true"
+        android:textColor="@color/card_label"
+        android:textSize="@dimen/card_label_text_size"
         android:visibility="gone" />
 
 </FrameLayout>

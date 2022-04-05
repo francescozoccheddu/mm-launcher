@@ -1,13 +1,12 @@
 <resources>
 
-    <style name="Theme.Launcher" parent="@style/Theme.Leanback" >
+    <style name="Theme.Launcher" parent="@style/Theme.Leanback">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="browseTitleViewLayout">@layout/header_view</item>
         <item name="browseRowsMarginTop">@dimen/grid_top_margin</item>
     </style>
 
-    <style name="Theme.Settings" parent="@style/Theme.AppCompat" >
+    <style name="Theme.Settings" parent="@style/Theme.AppCompat">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>

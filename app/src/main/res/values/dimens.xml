@@ -5,8 +5,9 @@
     <dimen name="header_padding_horizontal">60dp</dimen>
     <dimen name="header_padding_vertical">40dp</dimen>
     <dimen name="grid_top_margin">170dp</dimen>
-    <dimen name="card_padding">20dp</dimen>
     <dimen name="card_width">240dp</dimen>
     <dimen name="card_height">135dp</dimen>
     <dimen name="card_label_text_size">30sp</dimen>
+    <dimen name="card_label_margin">20dp</dimen>
+    <dimen name="card_icon_margin">30dp</dimen>
 </resources>

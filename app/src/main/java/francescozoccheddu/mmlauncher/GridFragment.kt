@@ -1,6 +1,7 @@
 package francescozoccheddu.mmlauncher
 
 import android.os.Bundle
+import android.util.Log
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 

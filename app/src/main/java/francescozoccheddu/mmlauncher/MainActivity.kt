@@ -2,8 +2,12 @@ package francescozoccheddu.mmlauncher
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.leanback.widget.VerticalGridView
 
 class MainActivity : FragmentActivity() {
 
@@ -21,6 +25,40 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         Prefs.update(this)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupHeaderAnimation()
+    }
+
+    private lateinit var showAnimation: Animation
+    private lateinit var hideAnimation: Animation
+    private var wasOverlapping = false
+
+    private fun setupHeaderAnimation() {
+        val gridFragment =
+            supportFragmentManager.findFragmentById(R.id.main_grid_fragment) as GridFragment
+        val headerView: ViewGroup = findViewById(R.id.main_header)
+        val verticalGridView: VerticalGridView = gridFragment.requireView()
+            .findViewById(androidx.leanback.R.id.browse_grid)
+        val firstChildPosition = IntArray(2)
+        val headerPosition = IntArray(2)
+        showAnimation = AnimationUtils.loadAnimation(this, R.anim.header_show)
+        hideAnimation = AnimationUtils.loadAnimation(this, R.anim.header_hide)
+        verticalGridView.setOnScrollChangeListener { _, _, _, _, _ ->
+            val firstChild = verticalGridView.getChildAt(0) ?: return@setOnScrollChangeListener
+            firstChild.getLocationOnScreen(firstChildPosition)
+            headerView.getLocationOnScreen(headerPosition)
+            val firstChildTop = firstChildPosition[1]
+            val headerBottom = headerPosition[1] + headerView.measuredHeight
+            val overlaps = firstChildTop < headerBottom
+            if (overlaps != wasOverlapping) {
+                wasOverlapping = overlaps
+                headerView.clearAnimation()
+                headerView.startAnimation(if (overlaps) hideAnimation else showAnimation)
+            }
+        }
     }
 
     override fun onBackPressed() {
