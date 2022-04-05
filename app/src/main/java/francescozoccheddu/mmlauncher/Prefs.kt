@@ -95,7 +95,7 @@ object Prefs {
         )
         activeTargets = TargetManager.getAllTargets(context).filter {
             activeTargetNames.contains(it.name)
-        }.toSortedSet(compareBy { it.name })
+        }.toSortedSet(compareBy { it.label })
         columnCount = getInt(
             resources,
             preferences,
