@@ -8,6 +8,6 @@
         android:fromAlpha="0"
         android:toAlpha="1" />
     <translate
-        android:fromYDelta="-5%"
+        android:fromYDelta="5%"
         android:toYDelta="0" />
 </set>

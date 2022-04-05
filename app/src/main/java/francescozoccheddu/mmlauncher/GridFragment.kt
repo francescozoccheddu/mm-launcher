@@ -2,6 +2,8 @@ package francescozoccheddu.mmlauncher
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.leanback.app.VerticalGridSupportFragment
 import androidx.leanback.widget.*
 
@@ -12,6 +14,16 @@ class GridFragment : VerticalGridSupportFragment(), OnItemViewClickedListener {
         onItemViewClickedListener = this
         adapter = ArrayObjectAdapter(TargetPresenter())
         updatePresenter()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireView()
+            .findViewById<ViewGroup>(androidx.leanback.R.id.browse_grid)
+            .layoutAnimation = AnimationUtils.loadLayoutAnimation(
+            requireContext(),
+            R.anim.layout_grid
+        )
         populate()
     }
 
