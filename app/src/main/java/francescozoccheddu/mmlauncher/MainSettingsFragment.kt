@@ -15,8 +15,9 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
 
         val activeTargetsPref: MultiSelectListPreference =
             findPreference(resources.getString(R.string.pref_active_targets_key))!!
-        activeTargetsPref.entries = TargetManager.allTargets.map { it.label }.toTypedArray()
-        activeTargetsPref.entryValues = TargetManager.allTargets.map { it.name }.toTypedArray()
+        val allTargets = TargetManager.getAllTargets(requireContext())
+        activeTargetsPref.entries = allTargets.map { it.label }.toTypedArray()
+        activeTargetsPref.entryValues = allTargets.map { it.name }.toTypedArray()
 
         val systemSettingsPref: Preference =
             findPreference(resources.getString(R.string.pref_system_settings_key))!!

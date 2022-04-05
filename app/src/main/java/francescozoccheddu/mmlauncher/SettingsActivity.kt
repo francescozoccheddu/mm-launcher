@@ -8,7 +8,6 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TargetManager.update(this)
         setContentView(R.layout.activity_settings)
         supportFragmentManager
             .beginTransaction()

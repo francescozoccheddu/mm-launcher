@@ -1,6 +1,6 @@
 package francescozoccheddu.mmlauncher
 
-import android.content.Context
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.preference.PreferenceManager
 import kotlin.math.roundToInt
 
 class TargetPresenter : Presenter() {
@@ -25,23 +24,19 @@ class TargetPresenter : Presenter() {
 
     private lateinit var layoutParams: ViewGroup.LayoutParams
 
-    fun updateCardHeight(context: Context) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val height = when (prefs.getString(
-            context.resources.getString(R.string.pref_card_size_key),
-            context.resources.getInteger(R.integer.pref_card_size_default).toString()
-        )!!.toInt()) {
-            0 -> 50
-            1 -> 75
-            3 -> 125
-            4 -> 150
-            else -> 100
+    fun updateCardHeight(resources: Resources) {
+        val height = when (Prefs.cardSize) {
+            Prefs.CardSize.VerySmall -> 50
+            Prefs.CardSize.Small -> 75
+            Prefs.CardSize.Medium -> 100
+            Prefs.CardSize.Large -> 125
+            Prefs.CardSize.VeryLarge -> 150
         }
         val size = sequenceOf(height / CARD_HW_RATIO, height).map {
             TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 it.toFloat(),
-                context.resources.displayMetrics
+                resources.displayMetrics
             ).roundToInt()
         }.toList()
         layoutParams = ViewGroup.LayoutParams(size[0], size[1])

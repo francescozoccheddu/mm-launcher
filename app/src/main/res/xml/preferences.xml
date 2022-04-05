@@ -14,20 +14,20 @@
             app:showSeekBarValue="true" />
 
         <ListPreference
-            android:entries="@array/pref_items_size_entries"
-            android:entryValues="@array/pref_items_size_entry_values"
+            android:entries="@array/pref_card_size_entries"
+            android:entryValues="@array/pref_card_size_entry_values"
             android:icon="@drawable/ic_size"
             android:key="@string/pref_card_size_key"
             android:title="@string/pref_card_size_title"
-            app:defaultValue="@integer/pref_card_size_default" />
+            app:defaultValue="@string/pref_card_size_default" />
 
         <ListPreference
-            android:entries="@array/pref_focus_highlight_entries"
-            android:entryValues="@array/pref_focus_highlight_entry_values"
+            android:entries="@array/pref_focus_zoom_entries"
+            android:entryValues="@array/pref_focus_zoom_entry_values"
             android:icon="@drawable/ic_highlight"
             android:key="@string/pref_focus_zoom_key"
             android:title="@string/pref_focus_zoom_title"
-            app:defaultValue="@integer/pref_focus_zoom_default" />
+            app:defaultValue="@string/pref_focus_zoom_default" />
 
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_dim"
