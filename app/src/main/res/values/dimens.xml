@@ -10,4 +10,7 @@
     <dimen name="card_label_text_size">30sp</dimen>
     <dimen name="card_label_margin">20dp</dimen>
     <dimen name="card_icon_margin">30dp</dimen>
+    <dimen name="help_icon_size">48dp</dimen>
+    <dimen name="help_title_text_size">32sp</dimen>
+    <dimen name="help_instructions_text_size">16sp</dimen>
 </resources>

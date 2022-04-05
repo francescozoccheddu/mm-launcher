@@ -18,6 +18,9 @@
     <string name="pref_category_appearance">Appearance</string>
     <string name="pref_card_size_default">m</string>
     <string name="pref_focus_zoom_default">m</string>
+    <string name="help_title">No app selected</string>
+    <string name="help_instructions">Press the back button %d times in a row to open settings</string>
+    <string name="help_instructions_done">Opening settings</string>
     <string-array name="pref_card_size_entry_values">
         <item>xs</item>
         <item>s</item>
@@ -46,8 +49,12 @@
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-    <plurals name="toast_settings_taps">
+    <plurals name="toast_settings_remaining">
         <item quantity="one">%d more tap to open settings</item>
         <item quantity="other">%d more taps to open settings</item>
+    </plurals>
+    <plurals name="help_instructions_remaining">
+        <item quantity="one">Press the back button %d more time to open settings</item>
+        <item quantity="other">Press the back button %d more times to open settings</item>
     </plurals>
 </resources>

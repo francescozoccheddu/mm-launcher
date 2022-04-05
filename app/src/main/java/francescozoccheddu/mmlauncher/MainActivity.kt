@@ -2,34 +2,55 @@ package francescozoccheddu.mmlauncher
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.VerticalGridView
+import kotlin.math.max
 
 class MainActivity : FragmentActivity() {
 
     companion object {
-        private const val MAX_BACK_ELAPSED_TIME: Double = 2.0
-        private const val BACK_COUNT_FOR_TOAST: Int = 5
-        private const val BACK_COUNT_FOR_SETTINGS: Int = 10
+        private const val MAX_TAP_DELAY: Long = 2000
+        private const val TAPS_FOR_TOAST: Int = 5
+        private const val TAPS_FOR_SETTINGS: Int = 10
     }
 
-    private var lastBackTime: Long? = null
-    private var backCount = 0
-    private var backToast: Toast? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val tapsResetter = Runnable {
+        taps = 0
+        updateRemainingTapsForSettings()
+    }
+    private var taps = 0
+    private var tapsToast: Toast? = null
+    private var hasTargets: Boolean = false
+    private lateinit var helpInstructionsTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Prefs.update(this)
+        hasTargets = Prefs.activeTargets.isNotEmpty()
         setContentView(R.layout.activity_main)
+        if (!hasTargets) {
+            findViewById<ViewStub>(R.id.main_help_stub).inflate()
+            helpInstructionsTextView = findViewById(R.id.help_instructions_text)
+        } else {
+            findViewById<ViewStub>(R.id.main_header_stub).inflate()
+        }
+        updateRemainingTapsForSettings()
     }
 
     override fun onResume() {
         super.onResume()
-        setupHeaderAnimation()
+        if (hasTargets) {
+            setupHeaderAnimation()
+        }
     }
 
     private lateinit var showAnimation: Animation
@@ -39,7 +60,7 @@ class MainActivity : FragmentActivity() {
     private fun setupHeaderAnimation() {
         val gridFragment =
             supportFragmentManager.findFragmentById(R.id.main_grid_fragment) as GridFragment
-        val headerView: ViewGroup = findViewById(R.id.main_header)
+        val headerView: ViewGroup = findViewById(R.id.header)
         val verticalGridView: VerticalGridView = gridFragment.requireView()
             .findViewById(androidx.leanback.R.id.browse_grid)
         val firstChildPosition = IntArray(2)
@@ -61,35 +82,48 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (lastBackTime != null) {
-            val elapsed = (System.nanoTime() - lastBackTime!!) / 1_000_000_000.0
-            if (elapsed <= MAX_BACK_ELAPSED_TIME) {
-                backCount++
-            } else {
-                backCount = 1
+    private fun launchSettings() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun updateRemainingTapsForSettings() {
+        val remaining = max(TAPS_FOR_SETTINGS - taps, 0)
+        if (hasTargets) {
+            tapsToast?.cancel()
+            if (taps >= TAPS_FOR_TOAST && remaining > 0) {
+                val message = resources.getQuantityString(
+                    R.plurals.toast_settings_remaining,
+                    remaining,
+                    remaining
+                )
+                tapsToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+                tapsToast!!.show()
             }
         } else {
-            backCount = 1
+            val message =
+                when (remaining) {
+                    0 -> resources.getString(R.string.help_instructions_done)
+                    TAPS_FOR_SETTINGS -> resources.getString(R.string.help_instructions, remaining)
+                    else -> resources.getQuantityString(
+                        R.plurals.help_instructions_remaining,
+                        remaining,
+                        remaining
+                    )
+                }
+            helpInstructionsTextView.text = message
         }
-        lastBackTime = System.nanoTime()
-        if (backCount >= BACK_COUNT_FOR_SETTINGS) {
-            backCount = 0
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-            finish()
+    }
+
+    override fun onBackPressed() {
+        taps++
+        if (taps >= TAPS_FOR_SETTINGS) {
+            launchSettings()
         }
-        if (backCount >= BACK_COUNT_FOR_TOAST) {
-            val remaining = BACK_COUNT_FOR_SETTINGS - backCount
-            val message = resources.getQuantityString(
-                R.plurals.toast_settings_taps,
-                remaining,
-                remaining
-            )
-            backToast?.cancel()
-            backToast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-            backToast!!.show()
-        }
+        handler.removeCallbacks(tapsResetter)
+        handler.postDelayed(tapsResetter, MAX_TAP_DELAY)
+        updateRemainingTapsForSettings()
     }
 
 }

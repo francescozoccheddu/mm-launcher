@@ -12,33 +12,20 @@
         android:src="@drawable/wallpaper"
         tools:ignore="ContentDescription" />
 
-    <LinearLayout
-        android:id="@+id/main_header"
+    <ViewStub
+        android:id="@+id/main_header_stub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/header_padding_horizontal"
-        android:paddingVertical="@dimen/header_padding_vertical">
+        android:inflatedId="@+id/header"
+        android:layout="@layout/layout_header" />
 
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.75"
-            android:format12Hour="H:mm a"
-            android:format24Hour="H:mm"
-            android:textSize="@dimen/time_text_size" />
-
-        <TextClock
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
-            android:format12Hour="EEEE, d MMMM"
-            android:format24Hour="EEEE, d MMMM"
-            android:textSize="@dimen/date_text_size" />
-
-    </LinearLayout>
+    <ViewStub
+        android:id="@+id/main_help_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/help"
+        android:layout="@layout/layout_help" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_grid_fragment"
